@@ -18,7 +18,8 @@ async function checkEndpoints(): Promise<PreflightCheckResult> {
   try {
     const oauthConfig = getOauthConfig();
     const tokenUrl = new URL(oauthConfig.TOKEN_URL);
-    const endpoints = [`${oauthConfig.BASE_API_URL}/api/hello`, `${tokenUrl.origin}/v1/oauth/hello`];
+    const baseApiUrl = process.env.ANTHROPIC_BASE_URL || oauthConfig.BASE_API_URL;
+    const endpoints = [`${baseApiUrl}/api/hello`, `${tokenUrl.origin}/v1/oauth/hello`];
     const checkEndpoint = async (url: string): Promise<PreflightCheckResult> => {
       try {
         const response = await axios.get(url, {
