@@ -861,13 +861,10 @@ export async function getAttachments(
         ),
       ),
     ),
-    ...(feature('BUDDY')
-      ? [
-          maybe('companion_intro', () =>
-            Promise.resolve(getCompanionIntroAttachment(messages)),
-          ),
-        ]
-      : []),
+    // MODIFIED: Always include companion_intro attachment - feature flag removed
+    maybe('companion_intro', () =>
+      Promise.resolve(getCompanionIntroAttachment(messages)),
+    ),
     maybe('changed_files', () => getChangedFiles(context)),
     maybe('nested_memory', () => getNestedMemoryAttachments(context)),
     // relevant_memories moved to async prefetch (startRelevantMemoryPrefetch)

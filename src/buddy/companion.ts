@@ -1,4 +1,4 @@
-import { getGlobalConfig } from '../utils/config.js'
+import { getGlobalConfig, saveGlobalConfig } from '../utils/config.js'
 import {
   type Companion,
   type CompanionBones,
@@ -130,4 +130,22 @@ export function getCompanion(): Companion | undefined {
   const { bones } = roll(companionUserId())
   // bones last so stale bones fields in old-format configs get overridden
   return { ...stored, ...bones }
+}
+
+// Hatch a new companion and save to config
+export function hatchCompanion(): Companion {
+  const { bones } = roll(companionUserId())
+  const companion: Companion = {
+    name: `Mystery ${bones.species}`,
+    personality: 'Playful and curious',
+    hatchedAt: Date.now(),
+    rarity: bones.rarity,
+    species: bones.species,
+    eye: bones.eye,
+    hat: bones.hat,
+    shiny: bones.shiny,
+    stats: bones.stats,
+  }
+  saveGlobalConfig(current => ({ ...current, companion }))
+  return companion
 }

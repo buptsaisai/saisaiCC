@@ -165,7 +165,7 @@ function spriteColWidth(nameWidth: number): number {
 // Narrow terminals: 0 — REPL.tsx stacks the one-liner on its own row
 // (above input in fullscreen, below in scrollback), so no reservation.
 export function companionReservedColumns(terminalColumns: number, speaking: boolean): number {
-  if (!feature('BUDDY')) return 0;
+  // MODIFIED: Removed feature('BUDDY') check - always enabled
   const companion = getCompanion();
   if (!companion || getGlobalConfig().companionMuted) return 0;
   if (terminalColumns < MIN_COLS_FOR_FULL_SPRITE) return 0;
@@ -212,7 +212,7 @@ export function CompanionSprite(): React.ReactNode {
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- tick intentionally captured at reaction-change, not tracked
   }, [reaction, setAppState]);
-  if (!feature('BUDDY')) return null;
+  // MODIFIED: Removed feature('BUDDY') check - always enabled
   const companion = getCompanion();
   if (!companion || getGlobalConfig().companionMuted) return null;
   const color = RARITY_COLORS[companion.rarity];
@@ -337,7 +337,8 @@ export function CompanionFloatingBubble() {
     t3 = $[4];
   }
   useEffect(t2, t3);
-  if (!feature("BUDDY") || !reaction) {
+  // MODIFIED: Removed feature("BUDDY") check - always enabled
+  if (!reaction) {
     return null;
   }
   const companion = getCompanion();

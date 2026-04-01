@@ -15,7 +15,7 @@ When the user addresses ${name} directly (by name), its bubble will answer. Your
 export function getCompanionIntroAttachment(
   messages: Message[] | undefined,
 ): Attachment[] {
-  if (!feature('BUDDY')) return []
+  // MODIFIED: Removed feature('BUDDY') check - always enabled
   const companion = getCompanion()
   if (!companion || getGlobalConfig().companionMuted) return []
 
